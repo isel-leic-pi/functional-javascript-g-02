@@ -17,9 +17,9 @@ The function should return an array containing the messages themselves, without 
 */
 
     function getShortMessages(messages) {
-        const f = messages.filter(word => word.message.lenght<50);
+        const f = messages.filter(word => word.message.length<50);
         return f.map(item => item.message);
 
-       //return messages.filter(word => word.message.lenght<50).map(item => item.message)
+       //return messages.filter(word => word.message.length<50).map(item => item.message)
     }
     module.exports = getShortMessages;
