@@ -35,15 +35,14 @@ function getTopTracks(artist, cb) {
 function searchArtist(artist, cb) {
     const url = LASTFM_HOST + LASTFM_SEARCH_ARTIST + artist + `&api_key=${LASTFM_KEY}&format=json&artist=`
     urllib.request(url,(err,data,res)=>{
+        //console.log(data.toString())
         if(err) return cb(err)
         const obj = JSON.parse(data)
-        if(obj.error) return cb(new Error(obj.message))
-        const art = obj.results.artistmatches.artist.filter(t => t.name == artist)
-        
-        if(art.length == 0){
-            cb(null,new Error(`There is no artists with the name ${artist}`))
+        const arrayArt = obj.results.artistmatches.artist.filter(t => t.name == artist)
+        if(arrayArt.length == 0){
+           return cb(new Error(`There is no artists with the name ${artist}`))
         }   
-        cb(null,art)
+        cb(null,arrayArt[0].name)
     })
 }
 

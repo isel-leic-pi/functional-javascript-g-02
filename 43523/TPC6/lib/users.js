@@ -64,11 +64,16 @@ function addArtist(username, artist, cb) {
     fs.readFile(PATH_USERS,(err,buffer)=>{
         if(err)return cb(err)
         const arr = JSON.parse(buffer)
-
         arr.map(t=>{
             if(t.username==username) t.artists.push(artist)        
         })
-        cb(null,arr)
+        //cb(null,arr)
+
+        const newObjJSON = JSON.stringify(arr);
+       // console.log('newObjJSON'+newObjJSON)
+        fs.writeFile(PATH_USERS,newObjJSON,err => {
+            if(err) return cb(err)
+        }) 
     })
 }
 

@@ -10,10 +10,10 @@ const users = require('./lib/users')
         tracks.forEach(t => console.log(t))   
 }) */
 
- lastfm.searchArtist('ir',(err,artist) =>{
+ /*  lastfm.searchArtist('p',(err,artist) =>{
     if(err) console.log(err)
     else console.log(artist)
-}) 
+})   */
 
 /* users.addUser('Gamboa',(err,artist) =>{
     if(err) console.log(err)
@@ -39,9 +39,9 @@ const users = require('./lib/users')
     console.log(artist)
   }) */
 
-  vinyl.addArtist('gamboa','ir',(err,artist) =>{
+  vinyl.addArtist('gamboa','Air',(err,artist) =>{
     if(err) console.log(err)
-    console.log(artist)
+   // console.log(artist)
   })
 
 /*

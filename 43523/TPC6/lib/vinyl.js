@@ -45,14 +45,16 @@ Devolve erro caso não exista um utilizador com o username dado
 */ 
 function addArtist(username, artist, cb) {
     
-    users.getUser(username,(err,p)=>{
-        if(err)return cb
-    })
-    lastfm.searchArtist(artist,(err,p)=>{
-        if(err)return cb 
-        else users.addArtist(username,artist,cb)
-    })
+    users.getUser(username,(err,user) => {
+        if(err)return cb(err)
 
+        lastfm.searchArtist(artist,(err,p)=>{
+            if(err)return cb(err)
+            users.addArtist(username,p,cb)
+        })
+    })
+    
+    
    
 }
 
