@@ -1,7 +1,6 @@
 'use strict'
 
 const urllib = require('urllib')
-const { isRegExp } = require('util')
 
 const LASTFM_HOST = 'http://ws.audioscrobbler.com/2.0/'
 const LASTFM_KEY = '79b2506be8ce86d852882e1774f1f2e8'

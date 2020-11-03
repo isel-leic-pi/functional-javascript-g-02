@@ -1,7 +1,7 @@
 'use strict'
 
 const fs = require('fs')
-const PATH_USERS = './data/users.json'
+const PATH_USERS = 'C:\\Users\\Joana\\Desktop\\PI2\\TPC6\\data\\users.json'
 
 /**
  * @typedef User
@@ -35,7 +35,7 @@ function addUser(username, cb) {
         if(err) return cb(err)
        
         const arr = JSON.parse(buffer)
-        console.log(arr)
+        //console.log(arr)
         const users = arr.filter(user => user.username == username)
         
         if(users.length != 0) 

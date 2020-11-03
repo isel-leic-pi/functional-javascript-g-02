@@ -10,10 +10,10 @@ const users = require('./lib/users')
         tracks.forEach(t => console.log(t))   
 }) */
 
- /*  lastfm.searchArtist('p',(err,artist) =>{
+  lastfm.searchArtist('p',(err,artist) =>{
     if(err) console.log(err)
     else console.log(artist)
-})   */
+})   
 
 /* users.addUser('Gamboa',(err,artist) =>{
     if(err) console.log(err)
