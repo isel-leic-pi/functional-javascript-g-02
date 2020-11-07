@@ -18,11 +18,7 @@ const a = {
 		console.log(arg);
 	},
 	w : 1
-	
 }
-
-//console.log(typeof(a.foo));
-
 function inspect (obj) {
 	const props = Object.keys(obj)
 	for (let i = 0; i < props.length; i++) {
