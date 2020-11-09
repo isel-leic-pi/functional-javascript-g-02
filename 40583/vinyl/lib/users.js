@@ -8,10 +8,7 @@ const PATH_USERS = './data/users.json'
  * @property {String} username
  * @property {Array} artists
  */
-function User(username, artists) {
-    this.username = username;
-    this.artist = artists;
-}
+
 
 
 
@@ -36,35 +33,22 @@ function getUser(username, cb) {
  * @param {function(Error)}
  */
 function addUser(username, cb) {
-    let exists = false;
-    fs.readFile(PATH_USERS, (err, buffer) => {
-        if(err) return cb(err);
-        const arr = JSON.parse(buffer);
-        let newUser = new User(username,[]);
-        arr.forEach(users => {
-            console.log(users.username);
-            if(users.username == username){
-                exists = true;
-               
-            }
-        });
-        if(exists){
-            return cb(new Error('Already exists user with username ' + username));
-        }else{
-            insertUser(arr, newUser);
-        }
-    });
-}
+    getUser(username,(err, user) => {
+        if (err) return cb(err);
+        if (user) return cb(new Error(`User ${username} already exists!`))
+        
+        fs.readFile(PATH_USERS, (err, buffer) => {
+            if(err) return cb(err)
+            
+            const arr = JSON.parse(buffer)
+            arr.push({
+                'username': username,
+                'artists': []
+            })
 
-function insertUser(arr,newUser){
-    arr.push(newUser);
-    fs.writeFile(PATH_USERS, JSON.stringify(arr), (err) => { 
-        if (err) 
-            console.log(err); 
-        else { 
-            console.log('File written successfully\n'); 
-        } 
-    }); 
+            fs.writeFile(PATH_USERS, JSON.stringify(arr), cb)
+        })
+    })
 }
 
 /**
