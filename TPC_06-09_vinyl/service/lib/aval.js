@@ -1,4 +1,4 @@
-'use strict'
+/*'use strict'
 
 var arrayUsers = [
     {
@@ -25,7 +25,7 @@ arr.forEach( (elem, index, arr) => {
     if(elem.name === 'raimunda') {
         arr[index].artists.push('ole')
         console.log(arr[index])
-        break;
+        //break;
     }            
 });
 
@@ -34,3 +34,4 @@ arr.forEach( (elem, index, arr) => {
 const index = arrayUsers.findIndex(elem => elem.username === 'raimunda')
 
 console.log(index)
+*/

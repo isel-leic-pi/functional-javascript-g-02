@@ -37,7 +37,9 @@ function searchArtist(artist, cb) {
         const obj = JSON.parse(data)
         if(obj.results.artistmatches.artist.length == 0) return cb(new Error('There are no results whit the artist ' + artist))
         const artists = obj.results.artistmatches.artist.map(a => a.name)
-        cb(null, artists)
+        const art = artists.filter(a => a == artist)
+        //console.log(art)
+        cb(null, art[0])
     })
 }
 

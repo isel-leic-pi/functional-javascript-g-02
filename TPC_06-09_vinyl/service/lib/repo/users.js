@@ -1,7 +1,7 @@
 'use strict'
 
 const fs = require('fs')
-const PATH_USERS = './data/users.json'
+let usersPath = './data/users.json'
 
 /**
  * @typedef User
@@ -14,7 +14,7 @@ const PATH_USERS = './data/users.json'
  * @param {function(Error, User)} cb 
  */
 function getUser(username, cb) {
-    fs.readFile(PATH_USERS, (err, buffer) => {
+    fs.readFile(usersPath, (err, buffer) => {
         if(err) return cb(err)
         const arr = JSON.parse(buffer)
         const users = arr.filter(user => user.username == username)
@@ -22,39 +22,45 @@ function getUser(username, cb) {
         cb(null, users[0])
     })
 }
+/**
+ * @param {function (Error, Array)} cb 
+ */
+function getUsers(cb) {
+    fs.readFile(usersPath, (err, buffer) => {
+        if(err) return cb(err)
+        const users = JSON.parse(buffer)
+        cb(null, users)
+    })
+}
 
 /**
  * Add a new User object with given username if it does not exist yet.
  * Returns an Error if that username already exist.
  * @param {String} username 
- * @param {function(Error)}
+ * @param {function(Error)} cb
  */
 function addUser(username, cb) {
-    // Ler ficheiro
-    // JSON.parse
-    // Modificar...
-    // JSON.stringify
-    // writeFile
-    let arrayUsersJson = {}
-    fs.readFile(PATH_USERS, (err, buffer) => {
+    //let arrayUsersJson = {}
+    fs.readFile(usersPath, (err, buffer) => {
         if(err) return cb(err)
         let arrayUsers = JSON.parse(buffer)
-        //let bool = arrayUsers.some(obj => obj.username === username)
-        if( arrayUsers.some(obj => obj.username === username )) return cb(new Error(`The user whit name ${username} already exists`))
+        if( arrayUsers.some(obj => obj.username === username )) 
+            return cb(new Error(`The user whit name ${username} already exists`))
 
         const user = {
             "username": username,
             "artists": []
         }
-        //console.log()
         arrayUsers.push(user)
-        //console.log(arrayUsers)
-        arrayUsersJson = JSON.stringify(arrayUsers)
-        console.log()
-        console.log(arrayUsersJson)
-        fs.writeFile(PATH_USERS, arrayUsersJson, (err) => {
+
+        fs.writeFile(usersPath, JSON.stringify(arrayUsers), cb)
+
+        /*
+        let arrayUsersJson = JSON.stringify(arrayUsers)
+        fs.writeFile(usersPath, arrayUsersJson, (err) => {
             if(err) return cb(err)
-        })
+        })*/
+        
     })
     cb(null)
 }
@@ -70,11 +76,11 @@ function addUser(username, cb) {
  */
 function addArtist(username, artist, cb) {
     //let arrayUsersJson = []
-    fs.readFile(PATH_USERS, (err, buffer) => {
+    fs.readFile(usersPath, (err, buffer) => {
         if(err) return cb(err)
         
         let arrayUsers = JSON.parse(buffer)
-        console.log(arrayUsers)
+        //console.log(arrayUsers)
         const index = arrayUsers.findIndex(elem => elem.username === username)
         if(index < 0) return cb(new Error(`The user whit name ${username} not exists`))
         
@@ -82,15 +88,21 @@ function addArtist(username, artist, cb) {
                
         const arrayUsersJson = JSON.stringify(arrayUsers)
 
-        fs.writeFile(PATH_USERS, arrayUsersJson, (err) => {
+        fs.writeFile(usersPath, arrayUsersJson, (err) => {
             if(err) return cb(err)
+            cb(null, username)
         })
     })
-    cb(null)
 }
 
-module.exports = {
-    getUser,
-    addArtist,
-    addUser
+module.exports = { init }
+
+function init(path) {
+    if(path) usersPath = path
+    return {
+        getUser,
+        getUsers,
+        addArtist,
+        addUser
+    }
 }

@@ -1,7 +1,7 @@
 'use strict'
 
 const lastfm = require('./lastfm')
-const users = require('./users')
+const users = require('./users').init()
 
 /**
  * Retrieves the top tracks (limit) of the favourite artists
@@ -37,17 +37,15 @@ function getTopTracks(username, limit, cb) {
  * @param {String} artist 
  * @param {function(Error)} cb 
  */
-function addArtist(username, artist, cb) {
-    // chama a funcao getUser de users.js
+function addArtist(username, artistToSearch, cb) {
+
     users.getUser(username, (err, user) => {
         if(err) return cb(err)
             
-        // se nao houver erro verifica se existe o artist na app atraves de searchArtist ???
-        lastfm.searchArtist(artist, (err, artists) => {
+        lastfm.searchArtist(artistToSearch, (err, artist) => {
             if(err) return cb(err)
-            const art = artists.filter(a => a == artist)
-            if(art === undefined) return cb(new Error(`The artist whit name ${artist} does not exist in lastfm`))
-            users.addArtist(username, artist, cb)
+            if(!art) return cb(new Error(`The artist with name ${artistToSearch} does not exist in lastfm`))
+            users.addArtist(user.username, artist, cb)
         })
     })
 }
