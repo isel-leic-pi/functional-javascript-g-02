@@ -1,0 +1,8 @@
+{
+    "access_token": "i4at24j8hszt7oyml7q8upgogab9hf",
+    "expires_in": 5624717,
+    "token_type": "bearer"
+}
+
+
+Seu código de segurança para Twitch: 2024098
