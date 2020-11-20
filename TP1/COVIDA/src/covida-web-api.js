@@ -16,8 +16,9 @@ router.get('/covida/games/topgames/', (req, resp, next) => {
 router.get('/covida/games/:name/', (req, resp, next) => {
     const name = req.params.name
     console.log(name)
-    resp.send('/covida/games/:name/')
-    resp.end()
+    services.searchGame( name, (err,data) =>{
+        resp.send(data)
+    })
 })
 
 

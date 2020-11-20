@@ -13,7 +13,15 @@ function getTopGames(cb) {
 
 }
 
+function searchGame(name, cb){
+    api.searchGame(name, (err, data) =>{
+        if(err) return cb(err)
+        cb(null, data)
+    })
+}
+
 
 module.exports = {
-    getTopGames
+    getTopGames,
+    searchGame
 }
