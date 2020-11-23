@@ -13,15 +13,14 @@ const urlSearch = 'https://api.igdb.com/v4/search'
 
 function searchGame(name,cb) {
 
-    let args = { 
-        type: 'post', 
+    let args = {
+        type: 'post',
         headers: {
-            'Client-ID': CLIENT_ID , 
+            'Client-ID': CLIENT_ID, 
             'Authorization':AUTHORIZATION
         },
         content:
             'fields *; w name ="' + name + '";'
-
     };
     urllib.request(urlSearch, args, function(err, data, res) {
         const result = JSON.parse(data);

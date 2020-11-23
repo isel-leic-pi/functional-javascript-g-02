@@ -22,8 +22,12 @@ router.get('/covida/games/:name/', (req, resp, next) => {
 })
 
 
-
 router.put('/covida/groups/:name',(req, resp, next) => {
     const name = req.params.name
+    const desc = req.body.Description
+    services.putGroupByName(name, desc, (err) => {
+        if (err) return console.log(err)
+        console.log('SUCCESS')
+    })
     console.log(name)
 })

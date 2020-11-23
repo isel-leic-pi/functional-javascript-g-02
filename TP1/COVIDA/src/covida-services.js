@@ -1,6 +1,7 @@
 'use strict'
 
 const api = require('./igdb-data')
+const db = require('./igdb-data')
 
 
 // GET/covida/games/topgames/
@@ -14,14 +15,22 @@ function getTopGames(cb) {
 }
 
 function searchGame(name, cb){
-    api.searchGame(name, (err, data) =>{
+    api.searchGame(name, (err, data) => {
         if(err) return cb(err)
         cb(null, data)
+    })
+}
+
+function putGroupByName(name, desc, cb){
+    db.putGroupByName(name, desc, (err) => {
+        if(err) return cb(err)
+        cb(null)
     })
 }
 
 
 module.exports = {
     getTopGames,
-    searchGame
+    searchGame,
+    putGroupByName
 }
