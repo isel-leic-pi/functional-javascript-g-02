@@ -1,5 +1,7 @@
 'use strict'
 
+const igdbData = require("./igdb-data")
+
 let groups = [
     {
         name: 'group0',
@@ -38,10 +40,24 @@ function updateGroup(name, desc, cb) {
     if(group === undefined) return cb(new Error(`The update was not successful. The group with the name ${name} does not exist!!!!!`))
     group.name = name
     group.description = desc
-    cb(null)
-}
-// Listar todos os grupos
-function getGroups(cb) {
-    cb(groups)
+    cb(null,groups)
 }
 
+// Listar todos os grupos
+function getGroups(cb) {
+    if(groups.length === 0) return cb(new Error('Not exists groups'))
+    cb(null,groups)
+}
+
+function groupDetails(cb){
+
+
+}
+
+
+module.exports = { 
+    putGroupByName,
+    updateGroup,
+    getGroups,
+    groupDetails
+}
