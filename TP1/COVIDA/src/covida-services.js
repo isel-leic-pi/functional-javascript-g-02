@@ -20,22 +20,31 @@ function searchGame(name, cb){
         cb(null, data)
     })
 }
-//POST /covida/groups/:groupName              descrição vai no body
-function putGroupByName(name, desc, cb){
-    db.putGroupByName(name, desc, (err) => {
+
+/**
+ * @param {String} name 
+ * @param {String} desc 
+ * @param {function(Error, Array)} cb 
+ */
+//POST /covida/groups/:groupName - descrição vai no body
+function putGroupByName(name, desc, cb) {
+    db.putGroupByName(name, desc, (err, data) => {
         if(err) return cb(err)
-        cb(null)
+        cb(null, data)
     })
 }
 
-function updateGroup(cb){
-    db.updateGroup((err,data) =>{
+/**
+ * @param {function(Error, Array)} cb 
+ */
+function updateGroup(old_name, name, desc, cb) {
+    db.updateGroup(old_name, name, desc, (err, data) =>{
         if(err) return cb(err)
-        cb(null,data)
+        cb(null, data)
     })
 }
 
-function getGroups(cb){
+function getGroups(cb) {
     db.getGroups((err,data) => {
         if(err) return cb(err)
         cb(null, data)
@@ -43,16 +52,31 @@ function getGroups(cb){
 }
 
 function groupDetails(name, cb) {
-    db.groupDetails(name, (err,data) => {
+    db.groupDetails(name, (err, data) => {
         if(err) return cb(err)
         cb(null, data)
     })
 }
+
+function addGameToGroup(group_name, game_name, cb) {
+    api.searchGame(game_name, (err, game) => {
+        if (err) return cb(err)
+        const id = game.id
+        console.log(id)
+        db.addGameToGroup(group_name, id, (err, data) => {
+            if(err) return cb(err)
+            cb(null, data)
+        })
+    })
+}
+
 
 module.exports = {
     getTopGames,
     searchGame,
     putGroupByName,
     getGroups,
-    groupDetails
+    groupDetails,
+    updateGroup,
+    addGameToGroup
 }
