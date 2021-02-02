@@ -2,28 +2,38 @@
 
 const http = require('http')
 const routes = require('./lib/routes/vinyl-routes')
-
-const lastfm = require('./../lib/repo/lastfm')
+const URL = require('url').URL
 
 const VINYL_USERS = '/vinyl/users'
 const VINYL_USERS_DETAILS = /\/vinyl\/users\/(.*)/
 const VINYL_USERS_TOPTRACKS = /\/vinyl\/users\/(.*)\/toptracks/
+
+//const VINYL_ADD_USERS = /\/vinyl\/users\/(.*)/.
+const VINYL_ADD_ARTIST = /\/vinyl\/users\/(.*)\/artist\/(.*)/
+const VINYL_SEARCH_ARTIST = /\/vinyl\/artist\/(.*)/
 
 
 const server = http.createServer((req, res) => {
     let path
 
     if ((path = req.url.match(VINYL_USERS_TOPTRACKS))) {
-        routes.getUserTopTracks(path[1], (err, user) => send(res, err, user))
+        const url = new URL(req.url, `http://${req.headers.host}`)
+        const limit = url.searchParams.get('limit')
+        routes.getUserTopTracks(path[1], limit, (err, user) => send(res, err, user))
     } else if ((path = req.url.match(VINYL_USERS_DETAILS))) {
         routes.getUserDetails(path[1], (err, user) => send(res, err, user))
     } else if ((path = req.url.match(VINYL_USERS))) {
-        routes.getUsers((err, users) => send(res, err, users))
+        routes.getUsers(req, (err, users) => send(res, err, users))
+    } else
+    
+    if ((path = req.url.match(VINYL_ADD_ARTIST))) {
+        routes.addArtist(req, (err, users) => send(res, err, users))
+    }  else if ((path = req.url.match(VINYL_SEARCH_ARTIST))) {
+        routes.searchArtist(req, (err, users) => send(res, err, users))
     } else {
         res.writeHead(404, 'Resource not found!!!!!')
         res.end()
     }
-    //console.log(path)
 })
 
 function send(resp, err, payload) {

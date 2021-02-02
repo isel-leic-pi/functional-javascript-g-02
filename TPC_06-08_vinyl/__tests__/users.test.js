@@ -1,9 +1,8 @@
 'use strict'
 
 const users = require('./../lib/repo/users').init('./__tests__/mocks/users.json')
-
-/****************************** */
 const fs = require('fs')
+
 
 const arrayUsers = [
     {
@@ -28,7 +27,7 @@ function initializeUsersDatabase() {
 }
 
 function clearUsersDatabase() {
-    // ... ???
+    fs.writeFileSync('./__tests__/mocks/users.json', JSON.stringify(arrayUsers))
 }
 /****************     getUser    **************** */
 
@@ -66,7 +65,7 @@ test('test users module getUser for absent username', done => {
 
 test('test users module addUser successfuly', done => {
 //
-    users.addUser('joana', (err) => {
+    users.addUser('baptista', (err, user) => {
         // Assert that there is no error
         expect(err).toBeFalsy()
         done()
@@ -77,12 +76,13 @@ test('test users module addUser successfuly', done => {
 
 test('test users module addUser already exists', done => {
 
-    users.addUser('bob', (err,user) => {
+    users.addUser('bob', (err, user) => {
         if(err) {
             expect(err.toString()).toBe('Error: The user whit name bob already exists')
             expect(user).toBeUndefined()
         } 
-        expect(err).toBeTruthy // fail
+        expect(err).toBeTruthy() 
+        //fail()
         done()
     })
 })
@@ -93,7 +93,7 @@ test('test users module addArtist successfuly', done => {
         users.addArtist('bob', 'pink', (err, user) => {
             // Assert that there is no error
             expect(err).toBeFalsy()
-            expect(user).toBeDefined();
+            expect(user).toBeDefined()
             done()
         })
 })

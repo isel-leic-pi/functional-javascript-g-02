@@ -12,8 +12,11 @@
     {
         "username": "laurinda",
         "artists": [
-            "muse",
-            "pink"
+            "Pink"
         ]
+    },
+    {
+        "username": "bob",
+        "artists": []
     }
 ]

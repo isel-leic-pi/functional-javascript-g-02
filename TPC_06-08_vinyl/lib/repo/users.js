@@ -22,6 +22,7 @@ function getUser(username, cb) {
         cb(null, users[0])
     })
 }
+
 /**
  * @param {function (Error, Array)} cb 
  */
@@ -61,8 +62,8 @@ function addUser(username, cb) {
             if(err) return cb(err)
         })*/
         
+        cb(null, user)
     })
-    cb(null)
 }
 
 /**
@@ -94,6 +95,7 @@ function addArtist(username, artist, cb) {
         })
     })
 }
+
 
 module.exports = { init }
 
